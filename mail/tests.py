@@ -41,15 +41,15 @@ class PlayerFormTest(LiveServerTestCase):
     def setUpClass(cls):
         ContentType.objects.clear_cache()
         super().setUpClass()
-        cls.driver = webdriver.Chrome()
+        # cls.driver = webdriver.Chrome()
 
     @classmethod
     def tearDownClass(cls):
-        cls.driver.quit()
+        # cls.driver.quit()
         super().tearDownClass()
 
     def setUp(self):
-        driver = self.driver
+        self.driver = webdriver.Chrome()
 
     def test_page_test(self):
         driver = self.driver
