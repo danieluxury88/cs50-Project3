@@ -46,18 +46,80 @@ function send_mail(event){
     .then(response => response.json())
     .then(result => {
         console.log(result);
-        load_mailbox('sent')
+        load_mailbox('sent');
     });
 
 }
 
 function load_mailbox(mailbox) {
   
-  // Show the mailbox and hide other views
-  document.querySelector('#emails-view').style.display = 'block';
-  document.querySelector('#compose-view').style.display = 'none';
+    // Show the mailbox and hide other views
+    document.querySelector('#emails-view').style.display = 'block';
+    document.querySelector('#compose-view').style.display = 'none';
 
-  // Show the mailbox name
-  document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
-  console.log(mailbox)
+    // Show the mailbox name
+    document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
+    console.log(mailbox)
+
+    fetch(`/emails/${mailbox}`)
+        .then(response => response.json())
+        .then(emails => {
+            console.log(emails);
+            //iterate over emails received on Json
+            emails.forEach(email => {
+                console.log(email)
+                const element = document.createElement('div');
+                const read_style = email.read? '\"': 'list-group-item-dark\"';
+
+                console.log(read_style);
+                element.innerHTML = `
+                          <a href="#" class="list-group-item list-group-item-action ${read_style}  aria-current="true" >
+                              <div class="d-flex w-100 justify-content-between">
+                                  <h5>${email.subject}</h5>
+                                  <small >${email.timestamp}</small>
+                              </div>
+                                <p class="mb-1">${email.body}</p>
+                                <small>${email.sender}</small>
+                          </a>
+
+                `
+                element.className = email.read? 'read':'unread';
+                element.addEventListener('click', function() {
+                    console.log('This element has been clicked!')
+                });
+                document.querySelector('#emails-view').append(element);
+            });
+        // ... do something else with emails ...
+    });
+}
+
+function get_mail(mail_id) {
+        // Show the mailbox and hide other views
+    document.querySelector('#emails-view').style.display = 'block';
+    document.querySelector('#compose-view').style.display = 'none';
+
+    fetch(`/emails/${mail_id}`)
+        .then(response=>json())
+        .then(email => {
+            console.log(email);
+
+        });
+}
+
+function archive_mail(mail_id , state) {
+    fetch(`/emails/${mail_id}` , {
+        method: 'POST',
+        body: JSON.stringify({
+            archived: state
+        })
+    })
+}
+
+function mark_read_mail(mail_id , state) {
+    fetch(`/emails/${mail_id}` , {
+        method: 'POST',
+        body: JSON.stringify({
+            read: state
+        })
+    })
 }
