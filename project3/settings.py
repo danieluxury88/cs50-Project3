@@ -74,6 +74,8 @@ WSGI_APPLICATION = 'project3.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+DEFAULT_AUTO_FIELD='django.db.models.BigAutoField'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
