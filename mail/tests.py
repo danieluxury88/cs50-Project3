@@ -7,6 +7,7 @@ from django.contrib.contenttypes.models import ContentType
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
+from selenium.webdriver import FirefoxOptions
 
 from .models import Email, User
 
@@ -49,7 +50,9 @@ class PlayerFormTest(LiveServerTestCase):
         super().tearDownClass()
 
     def setUp(self):
-        self.driver = webdriver.Firefox()
+        opts = FirefoxOptions()
+        opts.add_argument("--headless")
+        self.driver = webdriver.Firefox(options=opts)
 
     def test_page_test(self):
         driver = self.driver
