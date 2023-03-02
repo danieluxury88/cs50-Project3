@@ -10,5 +10,5 @@ jobs:
     - name: Run Django unit tests
       run: |
         pip3 install --user django
-        pip3 install selenium
+        pip3 install --user selenium
         python3 manage.py test
