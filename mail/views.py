@@ -21,6 +21,11 @@ def index(request):
         return HttpResponseRedirect(reverse("login"))
 
 
+def test(request):
+
+    # Authenticated users view their inbox
+    return render(request, "mail/test.html")
+
 @csrf_exempt
 @login_required
 def compose(request):
@@ -69,6 +74,7 @@ def compose(request):
             email.recipients.add(recipient)
         email.save()
 
+    print("Email sent successfully ", subject)
     return JsonResponse({"message": "Email sent successfully."}, status=201)
 
 
