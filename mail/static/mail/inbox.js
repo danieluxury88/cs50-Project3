@@ -45,7 +45,6 @@ function send_mail(event){
     })
     .then(response => response.json())
     .then(result => {
-        // Print result
         console.log(result);
         load_mailbox('sent')
     });
